@@ -37,6 +37,14 @@ suite('When barmen pours drinks', function () {
             assert.equal(400, volumeInGlass);
         });
 
+        test('barmen pours x3 volume on a visitor\'s birthday', function () {
+            barmen = new Barmen(alwaysFullCupboard);
+            calendar.currentDate = "01.03";
+            visitor.birthday = "01.03";
+            var volumeInGlass = barmen.pour("whisky", 200, visitor, calendar);
+            assert.equal(600, volumeInGlass);
+        });
+
     });
 
     suite('cupboard is empty', function () {

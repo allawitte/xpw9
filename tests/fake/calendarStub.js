@@ -3,32 +3,28 @@ class CalendarStub {
     constructor() {
         this._today = "Monday";
         this._currentDate = "";
+    }
 
-
-        get
-        today()
+        get today()
         {
             return this._today;
         }
 
-        set
-        today(value)
+        set today(value)
         {
             this._today = value;
         }
 
-        get
-        currentDate()
+        get currentDate()
         {
             return this._currentDate;
         }
 
-        set
-        currentDate(currentDate)
+        set currentDate(currentDate)
         {
             this._currentDate = currentDate;
         }
-    }
+    
 }
 
 module.exports = CalendarStub;

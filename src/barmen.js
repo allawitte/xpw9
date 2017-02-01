@@ -7,6 +7,7 @@ class Barmen {
     }
 
     pour(drinkName, volume, visitor, calendar) {
+        console.log('visitor ', visitor, 'calendar', calendar);
 
         if (!this._cupboard.hasDrink(drinkName, volume)) {
 
@@ -14,7 +15,7 @@ class Barmen {
             throw new Error('Sorry. Not enough ' + drinkName);
         }
 
-        if(calendar._currentDate == visitor.birthday){
+        if(calendar.currentDate == visitor.birthday){
             return 3 * this._cupboard.getDrink(drinkName, volume);
         }
 

@@ -25,7 +25,7 @@ class Visitor {
     }
 
     set birthday(birthday){
-
+        this._birthday = birthday;
     }
 }
 
