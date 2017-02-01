@@ -1,5 +1,8 @@
 'use strict';
 class CupboardStub {
+    constructor(){
+        this._isEmpty = false;
+    }
     isOpen() {
         return true;
     };
@@ -10,6 +13,14 @@ class CupboardStub {
 
     getDrink(drinkName, volume) {
         return volume;
+    };
+
+    set empty(value){
+        this._isEmpty = value;
+    };
+
+    get empty(){
+        return this._isEmpty;
     }
 }
 module.exports = CupboardStub;
