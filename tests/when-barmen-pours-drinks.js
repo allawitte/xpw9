@@ -4,11 +4,13 @@ var assert = require('chai').assert;
 var Barmen = require('../src/barmen');
 var Visitor = require('../src/visitor');
 var CupboardStub = require('./cupboardStub');
+var CalendarStub = require('./calendarStub');
 
 suite('When barmen pours drinks', function () {
     let visitor = {};
     let barmen = {};
     let alwaysFullCupboard = new CupboardStub();
+    let calendar = new CalendarStub();
 
     setup(function () {
         visitor = new Visitor();
