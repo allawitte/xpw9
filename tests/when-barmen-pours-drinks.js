@@ -3,7 +3,7 @@
 var assert = require('chai').assert;
 var Barmen = require('../src/barmen');
 var Visitor = require('../src/visitor');
-//var Cupboard = require('../src/cupboard');
+var CupboardStub = require('./cupboardStub');
 
 suite('When barmen pours drinks', function () {
     let visitor = {};
@@ -40,16 +40,4 @@ suite('When barmen pours drinks', function () {
 
 });
 
-class CupboardStub {
-    isOpen() {
-        return true;
-    };
 
-    hasDrink(drinkName, volume) {
-        return true;
-    };
-
-    getDrink(drinkName, volume) {
-        return volume;
-    }
-}
