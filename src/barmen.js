@@ -14,6 +14,10 @@ class Barmen {
             throw new Error('Sorry. Not enough ' + drinkName);
         }
 
+        if(calendar._currentDate == visitor.birthday){
+            return 3 * this._cupboard.getDrink(drinkName, volume);
+        }
+
         if (calendar.today === "Thursday") {
             return 2 * this._cupboard.getDrink(drinkName, volume);
         }
