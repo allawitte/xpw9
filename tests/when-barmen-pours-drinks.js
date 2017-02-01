@@ -11,23 +11,27 @@ suite('When barmen pours drinks', function () {
     let barmen = {};
     let alwaysFullCupboard = new CupboardStub();
     let calendar = new CalendarStub();
+    var today;
 
     setup(function () {
         visitor = new Visitor();
         visitor.sober();
+        today = calendar.today;
     });
 
     suite('cupboard is full', function () {
         test('barmen pours 200 milliliters of whisky in my glass', function () {
             barmen = new Barmen(alwaysFullCupboard);
-            var volumeInGlass = barmen.pour("whisky", 200, visitor);
+            var volumeInGlass = barmen.pour("whisky", 200, visitor, today);
             assert.equal(200, volumeInGlass);
 
         });
 
         test('barmen pours x2 volume on a Thursday', function () {
-
-
+            barmen = new Barmen(alwaysFullCupboard);
+            var today = calendar.today = "Thursday";
+            var volumeInGlass = barmen.pour("whisky", 200, visitor, today);
+            assert.equal(400, volumeInGlass);
         });
 
     });
@@ -39,9 +43,8 @@ suite('When barmen pours drinks', function () {
 
         test('barmen rejects for a drink', function () {
             barmen = new Barmen(emptyCupboard);
-
             var action = () => {
-                barmen.pour("whisky", 200, visitor)
+                barmen.pour("whisky", 200, visitor, today)
             };
 
             assert.throws(action, /Sorry. Not enough whisky/);

@@ -5,12 +5,14 @@ class Barmen {
         this._cupboard = cupboard;
     }
 
-    pour(drinkName, volume, visitor) {
-        console.log('this._cupboard.empty', this._cupboard.empty);
+    pour(drinkName, volume, visitor, today) {
 
-        
         if (!this._cupboard.hasDrink(drinkName, volume)) {
             throw new Error('Sorry. Not enough ' + drinkName);
+        }
+
+        if (today === "Thursday") {
+            return 2 * this._cupboard.getDrink(drinkName, volume);
         }
 
         return this._cupboard.getDrink(drinkName, volume);
