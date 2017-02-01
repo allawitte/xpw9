@@ -18,22 +18,22 @@ suite('When barmen pours drinks', function () {
     setup(function () {
         visitor = new Visitor();
         visitor.sober();
-        today = calendar.today;
+        calendar.today = "Monday";
         smsService = new SmsServiceMock();
     });
 
     suite('cupboard is full', function () {
         test('barmen pours 200 milliliters of whisky in my glass', function () {
             barmen = new Barmen(alwaysFullCupboard);
-            var volumeInGlass = barmen.pour("whisky", 200, visitor, today);
+            var volumeInGlass = barmen.pour("whisky", 200, visitor, calendar);
             assert.equal(200, volumeInGlass);
 
         });
 
         test('barmen pours x2 volume on a Thursday', function () {
             barmen = new Barmen(alwaysFullCupboard);
-            var today = calendar.today = "Thursday";
-            var volumeInGlass = barmen.pour("whisky", 200, visitor, today);
+            calendar.today = "Thursday";
+            var volumeInGlass = barmen.pour("whisky", 200, visitor, calendar);
             assert.equal(400, volumeInGlass);
         });
 

@@ -6,7 +6,7 @@ class Barmen {
         this._smsService = smsService;
     }
 
-    pour(drinkName, volume, visitor, today) {
+    pour(drinkName, volume, visitor, calendar) {
 
         if (!this._cupboard.hasDrink(drinkName, volume)) {
 
@@ -14,7 +14,7 @@ class Barmen {
             throw new Error('Sorry. Not enough ' + drinkName);
         }
 
-        if (today === "Thursday") {
+        if (calendar.today === "Thursday") {
             return 2 * this._cupboard.getDrink(drinkName, volume);
         }
 
