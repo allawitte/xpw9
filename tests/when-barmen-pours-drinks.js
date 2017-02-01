@@ -3,7 +3,7 @@
 var assert = require('chai').assert;
 var Barmen = require('../src/barmen');
 var Visitor = require('../src/visitor');
-var Cupboard = require('../src/cupboard');
+//var Cupboard = require('../src/cupboard');
 
 suite('When barmen pours drinks', function () {
     let visitor = {};
@@ -16,6 +16,9 @@ suite('When barmen pours drinks', function () {
 
     suite('cupboard is full', function () {
         test('barmen pours 200 milliliters of whisky in my glass', function () {
+            barmen = new Barmen(new CupboardStub());
+            var volumeInGlass = barmen.pour("whisky", 200, visitor);
+            assert.equal(200, volumeInGlass);
 
         });
 
@@ -36,3 +39,17 @@ suite('When barmen pours drinks', function () {
     });
 
 });
+
+class CupboardStub {
+    isOpen() {
+        return true;
+    };
+
+    hasDrink(drinkName, volume) {
+        return true;
+    };
+
+    getDrink(drinkName, volume) {
+        return volume;
+    }
+}
