@@ -25,13 +25,24 @@ suite('When barmen pours drinks', function () {
 
         test('barmen pours x2 volume on a Thursday', function () {
 
+
         });
 
     });
 
     suite('cupboard is empty', function () {
-        test('barmen rejects for a drink', function () {
+        let emptyCupboard = {};
+        emptyCupboard = new CupboardStub();
+        emptyCupboard.empty = true;
 
+        test('barmen rejects for a drink', function () {
+            barmen = new Barmen(emptyCupboard);
+
+            var action = () => {
+                barmen.pour("whisky", 200, visitor)
+            };
+
+            assert.throws(action, /Sorry. Not enough whisky/);
         });
 
         test('sms to buy drink is sent to boss', function () {

@@ -8,7 +8,7 @@ class CupboardStub {
     };
 
     hasDrink(drinkName, volume) {
-        return true;
+        return !this._isEmpty;
     };
 
     getDrink(drinkName, volume) {
