@@ -1,6 +1,7 @@
 class Visitor {
     constructor() {
         this.totalDrinkVolume = 0;
+        this._birthday = {};
     }
 
     drink(volume) {
@@ -18,6 +19,13 @@ class Visitor {
 
     getTotallyDrunk() {
         return this.totalDrinkVolume;
+    }
+    get birthday(){
+        return this._birthday;
+    }
+
+    set birthday(birthday){
+
     }
 }
 
