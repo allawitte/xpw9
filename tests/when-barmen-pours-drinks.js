@@ -6,6 +6,7 @@ var Visitor = require('../src/visitor');
 var CupboardStub = require('./fake/cupboardStub');
 var CalendarStub = require('./fake/calendarStub');
 var SmsServiceMock = require('./fake/sms-service-mock');
+var CassaMock = require('./fake/cassa-mock');
 
 suite('When barmen pours drinks', function () {
     let visitor = {};
@@ -13,19 +14,20 @@ suite('When barmen pours drinks', function () {
     let alwaysFullCupboard = new CupboardStub();
     let calendar = new CalendarStub();
     let smsService = {};
-    var today;
+    let cassa = {};
 
     setup(function () {
         visitor = new Visitor();
         visitor.sober();
         calendar.today = "Monday";
         smsService = new SmsServiceMock();
+        cassa = new CassaMock();
     });
 
     suite('cupboard is full', function () {
         test('barmen pours 200 milliliters of whisky in my glass', function () {
             barmen = new Barmen(alwaysFullCupboard);
-            var volumeInGlass = barmen.pour("whisky", 200, visitor, calendar);
+            var volumeInGlass = barmen.pour("whisky", 200, visitor, calendar, cassa);
             assert.equal(200, volumeInGlass);
 
         });
@@ -33,7 +35,7 @@ suite('When barmen pours drinks', function () {
         test('barmen pours x2 volume on a Thursday', function () {
             barmen = new Barmen(alwaysFullCupboard);
             calendar.today = "Thursday";
-            var volumeInGlass = barmen.pour("whisky", 200, visitor, calendar);
+            var volumeInGlass = barmen.pour("whisky", 200, visitor, calendar, cassa);
             assert.equal(400, volumeInGlass);
         });
 
@@ -41,7 +43,7 @@ suite('When barmen pours drinks', function () {
             barmen = new Barmen(alwaysFullCupboard);
             calendar.currentDate = "01.03";
             visitor.birthday = "01.03";
-            var volumeInGlass = barmen.pour("whisky", 200, visitor, calendar);
+            var volumeInGlass = barmen.pour("whisky", 200, visitor, calendar, cassa);
             assert.equal(600, volumeInGlass);
         });
 
@@ -55,7 +57,7 @@ suite('When barmen pours drinks', function () {
         test('barmen rejects for a drink', function () {
             barmen = new Barmen(emptyCupboard, smsService);
             var action = () => {
-                barmen.pour("whisky", 200, visitor, today)
+                barmen.pour("whisky", 200, visitor, calendar, cassa)
             };
 
             assert.throws(action, /Sorry. Not enough whisky/);
@@ -64,7 +66,7 @@ suite('When barmen pours drinks', function () {
         test('sms to buy drink is sent to boss', function () {
             barmen = new Barmen(emptyCupboard, smsService);
             runWithTryCatch(() => {
-                barmen.pour("vodka", 100, visitor, calendar)
+                barmen.pour("vodka", 100, visitor, calendar, cassa)
             });
 
             assert.equal(smsService.lastSentSms, "Hello. We have run out of vodka. Please buy several bottles.");
@@ -77,6 +79,20 @@ suite('When barmen pours drinks', function () {
 
             }
         }
+    });
+
+    suite('Client wants to get invoice', function(){
+        test('barmen prints invoice with drink name and total amount', function(){
+
+            barmen = new Barmen(alwaysFullCupboard);
+
+            calendar.today = "Monday";
+            calendar.currentDate = "12.12";
+
+            barmen.pour("vodka", 150, visitor, calendar, cassa);
+
+            assert.equal(cassa.invoice, "vodka 15");
+        })
     });
 
 });

@@ -6,8 +6,10 @@ class Barmen {
         this._smsService = smsService;
     }
 
-    pour(drinkName, volume, visitor, calendar) {
-        console.log('visitor ', visitor, 'calendar', calendar);
+    pour(drinkName, volume, visitor, calendar, cassa) {
+
+        cassa.drinkName = drinkName;
+        cassa.volume = volume;
 
         if (!this._cupboard.hasDrink(drinkName, volume)) {
 
