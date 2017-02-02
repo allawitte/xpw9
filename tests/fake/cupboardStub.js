@@ -2,10 +2,15 @@
 class CupboardStub {
     constructor(){
         this._isEmpty = false;
+        this._isOpen = true;
     }
     isOpen() {
-        return true;
+        return this._isOpen;
     };
+
+    set open(val){
+        this._isOpen = val;
+    }
 
     hasDrink(drinkName, volume) {
         return !this._isEmpty;
