@@ -11,6 +11,14 @@ class Barmen {
         cassa.drinkName = drinkName;
         cassa.volume = volume;
 
+
+        if (!this._cupboard.isOpen()) {
+
+            this._smsService.send("Hello. The cupboard is locked and we miss a key. Please bring one copy of key here.");
+            console.log('this._smsService', this._smsService);
+            throw new Error('Sorry. We have some temporary troubles to serve cold drink. You can order a coffee.');
+        }
+
         if (!this._cupboard.hasDrink(drinkName, volume)) {
 
             this._smsService.send("Hello. We have run out of " + drinkName + ". Please buy several bottles.");

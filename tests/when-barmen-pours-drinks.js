@@ -81,6 +81,39 @@ suite('When barmen pours drinks', function () {
         }
     });
 
+    suite('cupboard is locked and key is lost', function () {
+        let lockedCupboard = {};
+        lockedCupboard = new CupboardStub();
+        lockedCupboard.open = false;
+        
+        test('barmen rejects for a drink', function () {
+            barmen = new Barmen(lockedCupboard, smsService);
+            var action = () => {
+                barmen.pour("whisky", 200, visitor, calendar, cassa)
+            };
+
+            assert.throws(action, /Sorry. We have some temporary troubles to serve cold drink. You can order a coffee./);
+        });
+
+        test('sms to bring key is sent to boss', function () {
+            barmen = new Barmen(lockedCupboard, smsService);
+            runWithTryCatch(() => {
+                barmen.pour("vodka", 100, visitor, calendar, cassa)
+            });
+
+            assert.equal(smsService.lastSentSms, "Hello. The cupboard is locked and we miss a key. Please bring one copy of key here.");
+        });
+
+        function runWithTryCatch(action) {
+            try {
+                action();
+            } catch (exception) {
+
+            }
+        }
+    });
+
+
     suite('Client wants to get invoice', function(){
         test('barmen prints invoice with drink name and total amount', function(){
 
